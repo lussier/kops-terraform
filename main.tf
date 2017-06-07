@@ -37,8 +37,8 @@ resource "aws_route53_record" "subdomain" {
     "${aws_route53_zone.subdomain.name_servers.2}",
     "${aws_route53_zone.subdomain.name_servers.3}",
   ]
-  provisioner "local-exec" {
-    # kops generates terraform files in /out
-    command = "kops create cluster --name=${var.subdomain} --state=s3://${var.subdomain}-kops-state --node-count 3 --zones=${data.aws_availability_zones.available.names[0]},${data.aws_availability_zones.available.names[1]},${data.aws_availability_zones.available.names[2]},${data.aws_availability_zones.available.names[3]} --master-zones=${data.aws_availability_zones.available.names[0]},${data.aws_availability_zones.available.names[1]},${data.aws_availability_zones.available.names[2]} --terraform"
-  }
+}
+
+output "kops" {
+  value = "kops create cluster --name=${var.subdomain} --state=s3://${var.subdomain}-kops-state --node-count 1 --zones=${data.aws_availability_zones.available.names[0]},${data.aws_availability_zones.available.names[1]},${data.aws_availability_zones.available.names[2]},${data.aws_availability_zones.available.names[3]} --master-zones=${data.aws_availability_zones.available.names[0]},${data.aws_availability_zones.available.names[1]},${data.aws_availability_zones.available.names[2]} --node-size t2.medium --master-size t2.medium\n export KOPS_STATE_STORE=s3://${var.subdomain}-kops-state\n export CLUSTER_NAME=${var.subdomain}\n export\n AWS_DEFAULT_PROFILE=${var.aws_profile}\n export AWS_SDK_LOAD_CONFIG=1"
 }
