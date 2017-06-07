@@ -39,6 +39,6 @@ resource "aws_route53_record" "subdomain" {
   ]
   provisioner "local-exec" {
     # kops generates terraform files in /out
-    command = "kops create cluster --name=${var.subdomain} --state=s3://${var.subdomain}-kops-state --node-count 3 --zones=${data.aws_availability_zones.available.names[0]},${data.aws_availability_zones.available.names[1]},${data.aws_availability_zones.available.names[2]},${data.aws_availability_zones.available.names[3]} --master-zones=${data.aws_availability_zones.available.names[0]},${data.aws_availability_zones.available.names[1]},${data.aws_availability_zones.available.names[2]}"
+    command = "kops create cluster --name=${var.subdomain} --state=s3://${var.subdomain}-kops-state --node-count 3 --zones=${data.aws_availability_zones.available.names[0]},${data.aws_availability_zones.available.names[1]},${data.aws_availability_zones.available.names[2]},${data.aws_availability_zones.available.names[3]} --master-zones=${data.aws_availability_zones.available.names[0]},${data.aws_availability_zones.available.names[1]},${data.aws_availability_zones.available.names[2]} --terraform"
   }
 }
